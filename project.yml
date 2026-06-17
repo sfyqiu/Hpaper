@@ -4,7 +4,6 @@ options:
   deploymentTarget:
     macOS: "14.0"
   xcodeVersion: "26.4"
-
 schemes:
   SwallpaperWorkshopLite:
     build:
@@ -14,7 +13,6 @@ schemes:
       config: Debug
     archive:
       config: Release
-
 packages:
   SwiftSoup:
     url: https://github.com/scinfu/SwiftSoup.git
@@ -25,13 +23,10 @@ packages:
   Kingfisher:
     url: https://github.com/onevcat/Kingfisher.git
     from: "8.8.0"
-
 settings:
   base:
     CODE_SIGN_STYLE: Automatic
     ENABLE_HARDENED_RUNTIME: YES
-    COMBINE_HIDPI_IMAGES: YES
-
 targets:
   SwallpaperWorkshopLite:
     type: application
@@ -47,6 +42,7 @@ targets:
       - path: DesignSystem
       - path: Metal
       - path: Assets.xcassets
+      - path: WallpaperEngineEmbeddedAssets.swift
       - path: Resources
         type: folder
         buildPhase: resources
