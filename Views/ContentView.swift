@@ -22,8 +22,7 @@ struct ContentView: View {
             case 0:
                 MediaExploreContentView(
                     viewModel: mediaViewModel,
-                    selectedMedia: navigationState.binding(for: \.selectedMedia),
-                    showSettings: $showSettings
+                    selectedMedia: navigationState.binding(for: \.selectedMedia)
                 )
             case 1:
                 DownloadsView()
