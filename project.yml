@@ -45,6 +45,7 @@ targets:
       - path: Utilities
       - path: Components
       - path: DesignSystem
+      - path: Metal
       - path: Assets.xcassets
       - path: Resources
         type: folder
@@ -67,3 +68,7 @@ targets:
       - package: SwiftSoup
       - package: Kanna
       - package: Kingfisher
+    entitlements:
+      path: Swallpaper.entitlements
+      properties:
+        com.apple.security.network.client: true
