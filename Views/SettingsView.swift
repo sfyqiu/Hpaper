@@ -114,8 +114,35 @@ struct SettingsView: View {
     }
 
     private var downloadsView: some View {
-        GroupBox("下载") {
-            Toggle("保存下载到应用库", isOn: $viewModel.saveToDownloads).padding(8)
+        VStack(spacing: 16) {
+            GroupBox("下载") {
+                VStack(spacing: 10) {
+                    Toggle("保存下载到应用库", isOn: $viewModel.saveToDownloads)
+
+                    HStack {
+                        Text("下载位置").frame(width: 70, alignment: .trailing)
+                        Text(DownloadPathManager.shared.rootFolderURL.path)
+                            .font(.system(size: 10))
+                            .lineLimit(1)
+                            .truncationMode(.middle)
+                            .foregroundStyle(.secondary)
+                        Button("选择…") {
+                            let panel = NSOpenPanel()
+                            panel.canChooseFiles = false
+                            panel.canChooseDirectories = true
+                            panel.canCreateDirectories = true
+                            panel.message = "选择壁纸下载目录"
+                            panel.begin { response in
+                                if response == .OK, let url = panel.url {
+                                    _ = DownloadPathManager.shared.setCustomRoot(parentURL: url)
+                                }
+                            }
+                        }
+                        .controlSize(.small)
+                    }
+                }
+                .padding(8)
+            }
         }
     }
 
