@@ -1,44 +1,32 @@
-name: build-dmg
-
-on:
-  workflow_dispatch:
-
+name: Build DMG
+on: workflow_dispatch
 permissions:
   contents: write
-
 jobs:
   build:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v5
-      - name: Setup Xcode
-        run: |
-          LATEST=$(ls -d /Applications/Xcode_26*.app 2>/dev/null | sort -V | tail -1) && \
-          [ -n "$LATEST" ] && sudo xcode-select -s "$LATEST/Contents/Developer" || true
-          xcodebuild -version
       - name: Install XcodeGen
         run: brew install xcodegen
-      - name: Sync VERSION
-        run: |
-          V=$(cat VERSION | tr -d '[:space:]')
-          sed -i '' "s/MARKETING_VERSION: .*/MARKETING_VERSION: $V/" project.yml
       - name: Generate
         run: xcodegen generate
       - name: Build
         run: |
           xcodebuild -scheme SwallpaperWorkshopLite -configuration Release clean archive \
-            CODE_SIGN_IDENTITY="-" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
-            SWIFT_STRICT_CONCURRENCY=minimal -archivePath build/app.xcarchive
-          xcodebuild -exportArchive -archivePath build/app.xcarchive -exportPath build \
-            -exportOptionsPlist <(echo '<?xml version="1.0"?><plist><dict><key>method</key><string>mac-application</string></dict></plist>') \
+            CODE_SIGN_IDENTITY="-" CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            -archivePath build/app.xcarchive
+          xcodebuild -exportArchive -archivePath build/app.xcarchive \
+            -exportPath build -exportOptionsPlist <(echo '<?xml version="1.0"?><plist><dict><key>method</key><string>mac-application</string></dict></plist>') \
             CODE_SIGN_IDENTITY="-" CODE_SIGNING_ALLOWED=NO
       - name: DMG
         run: |
-          hdiutil create -volname "SwallpaperWorkshopLite" -srcfolder build/SwallpaperWorkshopLite.app \
+          hdiutil create -volname "SwallpaperWorkshopLite" \
+            -srcfolder build/SwallpaperWorkshopLite.app \
             -ov -format UDZO build/SwallpaperWorkshopLite.dmg
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v$(cat VERSION | tr -d '[:space:]')
-          name: Swallpaper Workshop Lite v$(cat VERSION | tr -d '[:space:]')
+          tag_name: v$(cat VERSION)
           files: build/SwallpaperWorkshopLite.dmg
