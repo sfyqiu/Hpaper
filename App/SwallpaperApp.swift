@@ -795,8 +795,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         centerWindow(settingsWindow, relativeTo: window)
         settingsWindow.tabbingMode = .disallowed
 
+        let vm = settingsViewModel!
         settingsWindow.contentView = EdgeToEdgeHostingView(
-            rootView: SettingsView(viewModel: settingsViewModel!)
+            rootView: SettingsView(viewModel: vm)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .ignoresSafeArea()
         )
