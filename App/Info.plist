@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
     <key>CFBundleName</key>
-    <string>Swallpaper</string>
+    <string>Hpaper</string>
     <key>CFBundleDisplayName</key>
-    <string>Swallpaper</string>
+    <string>Hpaper</string>
     <key>CFBundleIdentifier</key>
     <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
     <key>CFBundleVersion</key>

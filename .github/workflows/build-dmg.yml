@@ -48,5 +48,5 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.version.outputs.tag }}
-          name: Swallpaper Workshop Lite ${{ steps.version.outputs.version }}
+          name: Hpaper ${{ steps.version.outputs.version }}
           files: build/Hpaper.dmg

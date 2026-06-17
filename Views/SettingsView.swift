@@ -25,6 +25,7 @@ struct SettingsView: View {
     @StateObject var viewModel: SettingsViewModel
     @Environment(\.dismiss) private var dismiss
     @State private var selectedTab: SettingsTab = .general
+    @State private var showSteamLogin = false
 
     var body: some View {
         HStack(spacing: 0) {
@@ -125,9 +126,20 @@ struct SettingsView: View {
                     TextField("输入 Steam 64位 ID（数字）", text: $viewModel.steamProfileID)
                         .textFieldStyle(.roundedBorder)
                 }
+
+                Button("Steam 网页登录") {
+                    showSteamLogin = true
+                }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.small)
+
                 Toggle("显示所有内容（含未分类）", isOn: $viewModel.showAllWorkshopContent)
             }
             .padding(8)
+        }
+        .sheet(isPresented: $showSteamLogin) {
+            SteamLoginSheet(isPresented: $showSteamLogin)
+                .environmentObject(WorkshopSourceManager.shared)
         }
     }
 
