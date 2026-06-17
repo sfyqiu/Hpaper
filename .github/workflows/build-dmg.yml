@@ -25,7 +25,7 @@ jobs:
         run: xcodegen generate
       - name: Build Archive
         run: |
-          xcodebuild -scheme SwallpaperWorkshopLite -configuration Release clean archive \
+          xcodebuild -scheme Hpaper -configuration Release clean archive \
             CODE_SIGN_IDENTITY="-" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO \
             SWIFT_STRICT_CONCURRENCY=minimal -archivePath build/app.xcarchive
       - name: Export App
@@ -36,8 +36,8 @@ jobs:
             CODE_SIGN_IDENTITY="-" CODE_SIGNING_ALLOWED=NO
       - name: Create DMG
         run: |
-          hdiutil create -volname "SwallpaperWorkshopLite" -srcfolder build/SwallpaperWorkshopLite.app \
-            -ov -format UDZO build/SwallpaperWorkshopLite.dmg
+          hdiutil create -volname "Hpaper" -srcfolder build/Hpaper.app \
+            -ov -format UDZO build/Hpaper.dmg
       - name: Read Version
         id: version
         run: |
@@ -49,4 +49,4 @@ jobs:
         with:
           tag_name: ${{ steps.version.outputs.tag }}
           name: Swallpaper Workshop Lite ${{ steps.version.outputs.version }}
-          files: build/SwallpaperWorkshopLite.dmg
+          files: build/Hpaper.dmg
